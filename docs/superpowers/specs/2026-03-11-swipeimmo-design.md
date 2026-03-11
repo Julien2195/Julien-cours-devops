@@ -22,7 +22,7 @@ SwipeImmo est une plateforme web (PWA) de mise en relation immobilière entre pa
 
 ### Étape 1 — Inscription & profil
 
-Création de compte simple (email ou connexion sociale). Le vendeur indique s'il vend ou loue.
+Création de compte simple (email ou connexion sociale). Le vendeur indique s'il vend (Phase 1) ou loue (Phase 3).
 
 ### Étape 2 — Wizard de création d'annonce
 
@@ -189,7 +189,7 @@ Avec 1 000 annonces actives et 5 000 acheteurs inscrits :
 - 3% d'acheteurs prennent alertes → 150 × 2,99€ = ~450€/mois
 - 5% d'acheteurs certifient leur profil → 250 × 4,99€ = ~1 250€/mois (one-shot)
 
-→ ~1 450€/mois récurrent + one-shots. Modeste, mais démontre le mécanisme. La croissance vient du volume.
+→ ~1 450€/mois récurrent (boosts + premium + alertes) + ~1 250€ en one-shots (profils certifiés). Modeste, mais démontre le mécanisme. La croissance vient du volume.
 
 ### Monétisation future (post-levée)
 
@@ -197,7 +197,27 @@ Avec 1 000 annonces actives et 5 000 acheteurs inscrits :
 - Services d'accompagnement à la transaction
 - Version pro pour agences indépendantes
 
-## 7. Analyse concurrentielle
+## 7. Taille du marché
+
+**TAM (Total Addressable Market)** : ~1,1 million de transactions immobilières/an en France (dont ~700k dans l'ancien). Valeur totale des transactions : ~250 Mds€/an.
+
+**SAM (Serviceable Addressable Market)** : ~30% des transactions se font déjà entre particuliers (PAP), soit ~210k transactions/an. Avec l'ajout de la location (~1,5M de déménagements/an), le marché adressable est considérable.
+
+**SOM (Serviceable Obtainable Market)** : Objectif Year 1 post-MVP : capter 0,05% du marché C2C vente sur 2-3 villes → ~100-200 transactions facilitées, soit une preuve de traction suffisante pour une Série Seed.
+
+## 8. Levée de fonds
+
+**Montant visé** : Pré-seed / Seed de 200-400k€
+
+**Utilisation des fonds** :
+- Recrutement de 1-2 développeurs supplémentaires
+- Budget marketing digital (SEO, social, acquisition)
+- Infrastructure données (hébergement, pipelines)
+- Trésorerie 12-18 mois de runway
+
+**Jalons de la levée** : Le MVP validé (objectifs Section 11 atteints) constitue le signal pour déclencher la levée.
+
+## 9. Analyse concurrentielle
 
 | Acteur | Estimation | Matching | C2C pur | Modèle |
 |--------|-----------|----------|---------|--------|
@@ -210,21 +230,23 @@ Avec 1 000 annonces actives et 5 000 acheteurs inscrits :
 
 **Différenciation clé** : Aucun acteur ne combine estimation transparente + matching intelligent + C2C pur. MeilleursAgents fait l'estimation mais ne vend pas. LeBonCoin vend mais n'estime pas et ne matche pas. Hosman/Proprioo gardent un agent dans la boucle.
 
-## 8. Périmètre du MVP — Phasage
+## 10. Périmètre du MVP — Phasage
 
 Le MVP est découpé en 3 phases pour rester réaliste avec 1 développeur :
 
-### Phase 1 — Fondations (estimation + annonces)
+### Phase 1 — Fondations : estimation + annonces (~8-10 semaines)
 
 - Inscription / connexion (vendeur + acheteur)
-- Wizard de création d'annonce guidé
+- Wizard de création d'annonce guidé (vente uniquement en Phase 1)
 - Pipeline de données : DVF + cadastre + INSEE + Base Adresse Nationale
 - Estimation algorithmique transparente (fourchette, facteurs, comparables)
 - Fixation du prix avec indicateur de cohérence
 - Guidage photo intégré
 - Pages d'annonces publiques consultables
 
-### Phase 2 — Matching + interaction
+*La location est introduite en Phase 3 pour ne pas complexifier le lancement.*
+
+### Phase 2 — Matching + interaction (~6-8 semaines)
 
 - Onboarding profil acheteur (critères + mode de vie)
 - Enrichissement environnement (transports, écoles, commerces, cadre de vie)
@@ -235,14 +257,16 @@ Le MVP est découpé en 3 phases pour rester réaliste avec 1 développeur :
 - Notifications (nouveau match, nouveau message)
 - Apprentissage comportemental basique (likes/passes)
 
-### Phase 3 — Monétisation + polish
+### Phase 3 — Monétisation + location (~4-6 semaines)
 
 - Boost de visibilité (paiement intégré)
 - Annonce premium
 - Alertes prioritaires acheteur
-- Profil certifié acheteur (upload attestation + vérification)
+- Profil certifié acheteur (upload attestation + vérification — après consultation juridique sur les obligations réglementaires liées à la manipulation de documents financiers)
 - Tableau de bord vendeur (statistiques détaillées)
-- Spécificités location (encadrement des loyers, champs meublé/bail)
+- Ouverture à la location : champs spécifiques (meublé/bail/charges), encadrement des loyers, critères locataire
+
+**Planning prévisionnel** : Phase 1 opérationnelle ~3 mois après le démarrage, MVP complet (Phase 3) ~6 mois. Les commerciaux activent l'acquisition vendeurs dès la fin de Phase 1.
 
 ### Hors MVP
 
@@ -251,7 +275,7 @@ Le MVP est découpé en 3 phases pour rester réaliste avec 1 développeur :
 - App mobile native (PWA suffit)
 - Version pro pour agences
 
-## 9. Go-to-market
+## 11. Go-to-market
 
 ### Stratégie de lancement
 
@@ -269,7 +293,7 @@ Le MVP est découpé en 3 phases pour rester réaliste avec 1 développeur :
 
 **Objectif masse critique par ville** : ~100 annonces actives pour que le matching ait du sens pour un acheteur.
 
-## 10. KPIs & Objectifs de validation
+## 12. KPIs & Objectifs de validation
 
 ### North Star Metric
 
@@ -296,11 +320,11 @@ Si ces objectifs sont atteints → signal fort pour lever des fonds / entrer en 
 
 **Qualité matching** : taux de contact après recommandation, pertinence perçue (feedback)
 
-**Estimation** : écart estimation vs prix final, taux de vendeurs suivant l'estimation
+**Estimation** : écart estimation vs prix final (objectif : estimation médiane à moins de 10% du prix de vente final), taux de vendeurs suivant l'estimation
 
 **Monétisation** : conversion gratuit → payant, ARPU, options les plus achetées
 
-## 11. Risques & réponses
+## 13. Risques & réponses
 
 | Risque | Réponse |
 |--------|---------|
