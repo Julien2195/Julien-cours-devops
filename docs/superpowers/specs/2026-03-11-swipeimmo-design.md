@@ -1,336 +1,377 @@
-# SwipeImmo — Design Spec
+# SwipeImmo
 
-> "Tinder de l'immobilier" — Plateforme de mise en relation immobilière entre particuliers, augmentée par la data.
+> Le Tinder de l'immobilier — Acheter, vendre ou louer entre particuliers, sans agent, grâce à la puissance des données.
 
-## 1. Vision & Proposition de valeur
+---
 
-SwipeImmo est une plateforme web (PWA) de mise en relation immobilière entre particuliers en France, qui remplace l'agent immobilier par deux mécanismes intelligents :
+## 1. Le concept
 
-1. **Estimation transparente** — Un algorithme basé sur les données publiques (DVF, cadastre, INSEE) et les informations du vendeur produit une estimation fiable avec fourchette de prix, explication des facteurs, comparaison avec les ventes récentes, et données d'environnement (transports, écoles, commerces, cadre de vie).
+Aujourd'hui, pour vendre ou acheter un bien immobilier, on a deux options :
+- **Passer par un agent** : cher (5 à 7% de commission), et on dépend de son expertise pour fixer le prix.
+- **Se débrouiller seul** (LeBonCoin, PAP) : gratuit ou peu cher, mais on est livré à soi-même — comment fixer le bon prix ? Comment trouver le bon acheteur parmi des centaines d'annonces ?
 
-2. **Matching intelligent** — L'acheteur/locataire remplit un profil structuré intégrant ses critères classiques ET son mode de vie. L'algorithme recommande des biens pertinents et affine ses suggestions en fonction du comportement de l'utilisateur.
+**SwipeImmo propose une troisième voie** : une plateforme entre particuliers, où la technologie remplace l'agent immobilier grâce à deux innovations :
 
-**Cible** : Particuliers en France — vendeurs, acheteurs et locataires.
+1. **Une estimation intelligente et transparente** — Le vendeur entre les informations de son bien, et la plateforme calcule un prix juste à partir des ventes réelles du quartier, des données publiques, et de l'environnement (transports, écoles, commerces...). Pas de boîte noire : le vendeur voit exactement pourquoi on lui propose ce prix.
 
-**Positionnement** : PAP augmenté par la data. Plus fiable que LeBonCoin (estimation + matching), moins cher qu'un agent (pas de commission 5-7%).
+2. **Des recommandations sur-mesure** — L'acheteur ne parcourt pas des centaines d'annonces. Il décrit ce qu'il cherche — y compris son mode de vie (enfants, lieu de travail, besoin de transports...) — et la plateforme lui propose uniquement les biens qui lui correspondent vraiment. Plus il utilise l'application, plus les suggestions s'affinent.
 
-**Objectif** : MVP pour valider l'idée et lever des fonds / entrer en incubateur.
+**Pour qui ?** Tous les particuliers en France qui veulent vendre, acheter ou louer.
 
-**Équipe** : 1 développeur, 2 commerciaux. Recrutement prévu après validation.
+**L'objectif** : Construire une première version fonctionnelle pour prouver que le concept marche, puis lever des fonds ou intégrer un incubateur pour accélérer.
 
-## 2. Parcours utilisateur — Vendeur / Bailleur
+**L'équipe** : 1 développeur, 2 commerciaux. Recrutement prévu après la première levée.
 
-### Étape 1 — Inscription & profil
+---
 
-Création de compte simple (email ou connexion sociale). Le vendeur indique s'il vend (Phase 1) ou loue (Phase 3).
+## 2. Comment ça marche pour le vendeur ?
 
-### Étape 2 — Wizard de création d'annonce
+### Créer son compte
 
-Un parcours guidé étape par étape qui remplace le travail de l'agent :
+Inscription rapide par email ou via Google/Apple. Le vendeur indique s'il souhaite vendre (disponible dès le lancement) ou louer (disponible dans un second temps).
 
-1. **Adresse** — Saisie de l'adresse, géolocalisation automatique.
-2. **Caractéristiques** — Type de bien, surface, nombre de pièces, étage, extérieur, parking...
-3. **État & travaux** — État général, travaux récents, diagnostics (DPE notamment).
-4. **Photos** — Upload guidé avec conseils intégrés ("photographiez chaque pièce", "lumière naturelle recommandée", bonnes pratiques).
-5. **Estimation** — L'algorithme génère :
-   - Prix estimé + fourchette (ex: 300k - 340k, central 320k)
-   - Facteurs explicatifs (localisation, surface, état, DPE...)
-   - Biens similaires vendus récemment à proximité (adresse approximative, prix, date, surface)
-   - Données d'environnement (transports, écoles, commerces, cadre de vie)
-   - Indice de confiance (plus il y a de transactions comparables, plus l'estimation est fiable)
-6. **Fixation du prix** — Le vendeur choisit son prix. Un indicateur de cohérence s'affiche ("prix cohérent", "au-dessus du marché", "bonne affaire"). Le vendeur n'est pas obligé de suivre l'estimation.
-7. **Prévisualisation & publication** — Le vendeur voit l'annonce telle que les acheteurs la verront, puis publie.
+### Publier son annonce — un parcours guidé pas à pas
 
-**Spécificités location** : Le wizard inclut des champs supplémentaires pour la location — meublé/non meublé, type de bail, charges comprises ou non, dépôt de garantie. L'estimation intègre l'encadrement des loyers dans les zones concernées et alerte le bailleur si son prix dépasse le plafond légal.
+La plateforme accompagne le vendeur à chaque étape, comme le ferait un bon agent :
 
-### Étape 3 — Gestion
+1. **L'adresse** — Le vendeur saisit son adresse, la plateforme la localise automatiquement sur la carte.
 
-Tableau de bord avec : statistiques de vues, messages reçus, possibilité de modifier l'annonce ou ajuster le prix.
+2. **Les caractéristiques du bien** — Type (appartement, maison...), surface, nombre de pièces, étage, extérieur, parking, cave...
 
-## 3. Parcours utilisateur — Acheteur / Locataire
+3. **L'état du bien** — État général, travaux récents, performance énergétique (DPE), diagnostics.
 
-### Étape 1 — Inscription & onboarding structuré
+4. **Les photos** — La plateforme guide le vendeur pour prendre de bonnes photos : "Photographiez le salon depuis l'entrée", "Préférez la lumière naturelle", "Montrez chaque pièce". Des conseils concrets pour obtenir des photos de qualité sans photographe professionnel.
 
-Après création de compte, un questionnaire définit le profil de recherche :
+5. **L'estimation** — C'est le moment clé. La plateforme analyse les données et affiche :
+   - Un **prix estimé** avec une fourchette (ex: entre 300 000€ et 340 000€, estimation centrale à 320 000€)
+   - Les **raisons** qui expliquent ce prix : localisation, surface, état, performance énergétique...
+   - Les **ventes récentes comparables** à proximité : adresse approximative, prix, date, surface
+   - L'**environnement** du bien : transports, écoles, commerces, espaces verts
+   - Un **indice de fiabilité** : plus il y a eu de ventes similaires récemment dans le quartier, plus l'estimation est précise
+
+6. **Le choix du prix** — Le vendeur fixe librement son prix de vente. La plateforme affiche un indicateur visible par les acheteurs : "Prix cohérent avec le marché", "Au-dessus du marché" ou "Bonne affaire". Le vendeur n'est jamais obligé de suivre l'estimation.
+
+7. **Vérification et publication** — Le vendeur prévisualise son annonce telle que les acheteurs la verront, puis la publie en un clic.
+
+**Pour la location** (disponible en Phase 3) : des champs supplémentaires sont prévus — meublé ou non, type de bail, charges, dépôt de garantie. L'estimation intègre l'encadrement des loyers dans les villes concernées et prévient le bailleur si son prix dépasse le plafond légal.
+
+### Suivre son annonce
+
+Le vendeur dispose d'un tableau de bord avec le nombre de vues, les messages reçus, et la possibilité de modifier son annonce ou ajuster son prix à tout moment.
+
+---
+
+## 3. Comment ça marche pour l'acheteur ?
+
+### Créer son profil de recherche
+
+Après inscription, l'acheteur répond à un questionnaire qui va bien au-delà des filtres classiques :
 
 - Achat ou location ?
-- Budget (min/max)
-- Zone géographique souhaitée (ville, rayon, ou plusieurs zones)
+- Budget (minimum et maximum)
+- Zone géographique souhaitée (une ville, un rayon, ou plusieurs zones)
 - Type de bien (appartement, maison, studio...)
 - Surface minimum, nombre de pièces
-- Critères importants (balcon, parking, calme, proximité transports, DPE...)
+- Critères importants (balcon, parking, calme, proximité transports, bonne performance énergétique...)
 - Situation (premier achat, investissement, déménagement...)
-- **Mode de vie** : enfants (âge, école), lieu de travail, moyen de transport, centres d'intérêt liés au cadre de vie
+- **Mode de vie** — C'est ce qui fait la différence : nombre et âge des enfants, lieu de travail, moyen de transport habituel, centres d'intérêt liés au cadre de vie
 
-**Spécificités location** : critères supplémentaires — meublé/non meublé, durée souhaitée, colocation, animaux acceptés.
+Pour la location : critères supplémentaires comme meublé/non meublé, durée souhaitée, colocation, animaux acceptés.
 
-### Étape 2 — Feed de recommandations
+### Découvrir des biens — le principe du swipe
 
-L'interface reprend le principe du swipe : les biens sont présentés **un par un en plein écran** (type carte Tinder), avec swipe droite pour liker, swipe gauche pour passer, et un bouton pour contacter directement. Ce format force l'attention sur chaque bien et génère des signaux clairs pour l'algorithme.
+L'acheteur découvre les biens **un par un, en plein écran**, comme sur Tinder :
+- **Glisser à droite** pour aimer un bien (il est sauvegardé et l'application en prend note)
+- **Glisser à gauche** pour passer au suivant
+- **Bouton "Contacter"** pour écrire directement au vendeur
 
-Pour chaque bien affiché :
+Chaque fiche affiche :
+- Les photos (que l'on peut faire défiler), le prix, et l'indicateur de cohérence du prix
+- Les caractéristiques principales
+- La localisation sur une carte
+- Les informations d'environnement **personnalisées** selon le profil (ex: "École primaire à 200m" pour une famille, "Station de métro à 5 min" pour quelqu'un sans voiture)
+- Un **score de compatibilité** avec le profil de l'acheteur
 
-- Photos (carousel swipeable), prix, indicateur de cohérence du prix
-- Caractéristiques principales
-- Localisation sur carte
-- Données d'environnement pertinentes pour son profil (ex: "école primaire à 200m" pour une famille)
-- Score de compatibilité avec son profil
+Un **mode liste** est aussi disponible pour ceux qui préfèrent voir plusieurs biens d'un coup.
 
-Un **mode liste** est aussi disponible pour les utilisateurs qui préfèrent parcourir plusieurs biens rapidement.
+### Des recommandations qui s'améliorent avec le temps
 
-### Étape 3 — Apprentissage comportemental
+Plus l'acheteur utilise la plateforme, plus les suggestions deviennent pertinentes :
+- Les biens aimés orientent vers des biens similaires
+- Les biens passés réduisent ce type de propositions
+- Le temps passé sur une annonce et les critères consultés sont aussi pris en compte
 
-Au fil de l'utilisation, l'algorithme affine les recommandations :
+L'acheteur voit quand ses recommandations sont mises à jour, et peut consulter les préférences détectées dans ses paramètres (ex: "Vous semblez préférer les biens avec extérieur") avec la possibilité de confirmer ou rejeter chaque préférence.
 
-- Biens likés → plus de biens similaires
-- Biens ignorés/passés → moins de biens de ce type
-- Temps passé sur une annonce, critères consultés...
+### Contacter le vendeur
 
-L'utilisateur voit l'impact : un bandeau discret "Recommandations mises à jour" quand l'algo ajuste significativement le feed. Il peut aussi consulter et modifier ses préférences détectées dans les paramètres (ex: "Vous semblez préférer les biens avec extérieur" — avec possibilité de confirmer ou rejeter).
+Quand un bien plaît, l'acheteur ouvre une conversation par messagerie directement dans la plateforme. Les deux parties échangent librement — texte, partage de documents (diagnostics, plans...). La messagerie reste ouverte sans limite de durée. La plateforme n'intervient pas dans la suite (visites, négociation, notaire).
 
-### Étape 4 — Mise en relation
+---
 
-Quand l'acheteur contacte un vendeur, une conversation s'ouvre dans la messagerie intégrée. Les deux parties échangent librement — texte, partage de documents (diagnostics, plans). La messagerie reste ouverte sans limitation de durée. L'app n'intervient pas dans la suite de la transaction (visites, négociation, notaire).
+## 4. L'estimation : comment ça fonctionne ?
 
-## 4. Estimation algorithmique
+### Les données utilisées
 
-### Sources de données
+L'estimation repose sur des **données publiques et gratuites**, complétées par les informations du vendeur :
 
-| Source | Données | Usage |
-|--------|---------|-------|
-| DVF (Demandes de Valeurs Foncières) | Historique transactions immobilières France | Socle de l'estimation |
-| Cadastre | Surface parcellaire, infos foncières | Complément estimation |
-| INSEE | Revenus médians, démographie, équipements | Contextualisation quartier |
-| Base Adresse Nationale | Géolocalisation précise | Localisation |
-| transport.data.gouv.fr (GTFS) | Stations métro, bus, tram, gare | Environnement transport |
-| Base Éducation Nationale | Crèches, écoles, collèges, lycées | Environnement éducation |
-| Base Permanente des Équipements (INSEE) | Commerces, services, santé | Environnement services |
-| OpenStreetMap | Espaces verts, parcs | Cadre de vie |
-| Carte du bruit | Niveaux sonores | Cadre de vie |
-| Données vendeur | État, travaux, DPE, photos | Ajustement estimation |
+| Source | Ce qu'elle apporte |
+|--------|--------------------|
+| Registre des ventes immobilières (DVF) | Toutes les transactions réelles en France — le socle de l'estimation |
+| Cadastre | Surfaces parcellaires, informations foncières |
+| INSEE | Revenus du quartier, démographie, équipements |
+| Base Adresse Nationale | Localisation précise |
+| Données transports (transport.data.gouv.fr) | Métro, bus, tram, gares à proximité |
+| Annuaire Éducation Nationale | Crèches, écoles, collèges, lycées |
+| Base des Équipements (INSEE) | Commerces, médecins, pharmacies |
+| OpenStreetMap | Parcs, espaces verts |
+| Carte du bruit | Niveaux sonores |
+| Informations du vendeur | État du bien, travaux, DPE, photos |
 
-### Logique d'estimation
+### Comment le prix est calculé
 
-1. Identifier les transactions DVF récentes dans un rayon autour du bien (même type, surface comparable)
-2. Ajuster en fonction des caractéristiques spécifiques (état, DPE, étage, extérieur...)
-3. Pondérer par les données socio-économiques du quartier (INSEE)
-4. Produire : prix central, fourchette basse/haute, indice de confiance
+1. On identifie les **ventes récentes similaires** autour du bien (même type, surface comparable)
+2. On ajuste selon les **spécificités du bien** (état, performance énergétique, étage, extérieur...)
+3. On prend en compte le **contexte du quartier** (revenus, dynamisme, équipements)
+4. On produit un **prix central**, une **fourchette basse et haute**, et un **indice de fiabilité**
 
-### Transparence
+### Ce que le vendeur voit
 
-- Liste des transactions comparables utilisées
-- Facteurs qui influencent le prix (ex: "DPE A : +5%", "RDC sans extérieur : -8%")
-- Carte des ventes récentes dans le quartier
+- La liste des ventes comparables utilisées pour le calcul
+- Les facteurs qui tirent le prix vers le haut ou vers le bas (ex: "Bonne performance énergétique : +5%", "Rez-de-chaussée sans extérieur : -8%")
+- Une carte des ventes récentes dans le quartier
 
-### Limites assumées
+### Les limites, assumées en toute honnêteté
 
-- Zones rurales avec peu de transactions → fourchette large + indice de confiance bas
-- Biens atypiques (loft, château...) → estimation moins fiable, clairement indiqué
+- En zone rurale avec peu de ventes récentes → la fourchette sera plus large et l'indice de fiabilité plus bas
+- Pour les biens atypiques (loft, château, bien d'exception) → l'estimation sera moins précise, et c'est clairement indiqué
 
-### Données d'environnement
+### L'environnement du bien
 
-Chaque bien est enrichi automatiquement :
+Chaque annonce est automatiquement enrichie avec les données de proximité :
 
 - **Transports** — Stations à proximité, temps de trajet vers un point donné
-- **Éducation** — Crèches, écoles, collèges, lycées avec distance
-- **Commerces & services** — Proximité supermarchés, médecins, pharmacies
-- **Cadre de vie** — Espaces verts, niveau de bruit, sécurité
+- **Éducation** — Crèches, écoles, collèges, lycées avec la distance
+- **Commerces et services** — Supermarchés, médecins, pharmacies
+- **Cadre de vie** — Espaces verts, niveau de bruit
 
-Ces données alimentent à la fois la fiche du bien ET le scoring de matching.
+Ces informations sont visibles sur la fiche du bien ET utilisées pour affiner les recommandations aux acheteurs.
 
-## 5. Matching intelligent
+---
 
-### Critères de scoring
+## 5. Le matching : pourquoi c'est différent
 
-Le matching ne se limite pas à "3 pièces, 300k, Paris 11e". Il intègre :
+### Au-delà des filtres classiques
 
-- **Critères classiques** : budget, surface, type, localisation → filtre binaire
-- **Mode de vie** : enfants, lieu de travail, transport → scoring pondéré via données d'environnement
-- **Comportement** : biens likés, ignorés, temps passé → ajustement progressif des poids
+Sur LeBonCoin, on filtre par prix, surface et ville. On obtient des centaines de résultats à trier soi-même. SwipeImmo va plus loin :
 
-### Personas
+- **Critères classiques** (budget, surface, type, localisation) → utilisés pour éliminer les biens hors sujet
+- **Mode de vie** (enfants, lieu de travail, transport) → utilisés pour classer les biens restants par pertinence, grâce aux données d'environnement
+- **Comportement** (biens aimés, ignorés, temps passé) → utilisés pour affiner progressivement les recommandations
 
-**Persona 1 — Famille qui achète** : Couple avec 2 enfants en primaire, travaillant à La Défense, sans voiture. Cherche un 4 pièces en banlieue ouest. → Le matching priorise la proximité RER A, les écoles à distance piétonne, et les commerces de proximité. Un bien à Saint-Germain-en-Laye avec école à 200m et gare à 10 min sera mieux classé qu'un bien identique à Massy sans transports directs.
+### Trois exemples concrets
 
-**Persona 2 — Jeune actif qui loue** : Développeur de 28 ans, travaille en remote, budget 800-1000€/mois. Cherche un studio/T2 à Lyon. → Le matching priorise le calme, la fibre, les espaces verts, les cafés/coworking à proximité. Moins de poids sur les transports (remote).
+**Sophie et Marc — une famille qui achète**
+Couple avec 2 enfants en primaire. Marc travaille à La Défense, pas de voiture. Cherchent un 4 pièces en banlieue ouest.
+→ La plateforme priorise les biens proches du RER A, avec des écoles à distance à pied et des commerces de proximité. Un appartement à Saint-Germain-en-Laye avec une école à 200m et une gare à 10 min sera mieux classé qu'un bien identique à Massy, sans transport direct vers La Défense.
 
-**Persona 3 — Investisseur** : Cadre qui achète un studio pour du locatif. Budget 150-200k, rendement visé. → Le matching priorise le prix au m² par rapport au quartier, la tension locative (demande vs offre dans la zone), et la rentabilité estimée.
+**Lucas — un jeune actif qui loue**
+28 ans, travaille depuis chez lui, budget 800-1000€/mois. Cherche un studio ou T2 à Lyon.
+→ La plateforme priorise le calme, les espaces verts, les cafés et espaces de coworking à proximité. Les transports en commun comptent moins puisqu'il travaille à distance.
 
-## 6. Business model — Freemium
+**Catherine — une investisseuse**
+Cadre qui achète un studio pour le louer. Budget 150-200k, objectif rentabilité.
+→ La plateforme priorise le prix au m² par rapport au quartier, la forte demande locative dans la zone, et la rentabilité estimée.
 
-### Gratuit
+---
 
-- Création de compte, profil, recherche
-- Publication d'une annonce (avec estimation + données d'environnement)
-- Messagerie intégrée
-- Recommandations personnalisées
+## 6. Le modèle économique
 
-### Options payantes — Vendeurs
+### Ce qui est gratuit
 
-| Option | Description | Prix indicatif |
-|--------|-------------|----------------|
-| Boost de visibilité | Annonce en priorité dans les feeds compatibles pendant 7 jours | ~4,99€ |
-| Annonce premium | Badge vérifié, mise en avant visuelle, statistiques détaillées (vues, profil des visiteurs) | ~9,99€ |
+- Créer un compte, publier une annonce, recevoir une estimation
+- Envoyer et recevoir des messages
+- Recevoir des recommandations personnalisées
 
-### Options payantes — Acheteurs
+### Les options payantes — Vendeurs
 
-| Option | Description | Prix indicatif |
-|--------|-------------|----------------|
-| Alertes prioritaires | Notifié en premier (24h d'avance) sur les nouveaux biens matching | ~2,99€/mois |
-| Profil certifié | L'acheteur uploade une attestation bancaire ou simulation de prêt ; SwipeImmo vérifie le document et attribue un badge "solvabilité vérifiée" visible par les vendeurs | ~4,99€ |
+| Option | Ce que ça fait | Prix indicatif |
+|--------|----------------|----------------|
+| Mise en avant | L'annonce apparaît en priorité auprès des acheteurs compatibles pendant 7 jours | ~4,99€ |
+| Annonce premium | Badge "vérifié", mise en avant visuelle, statistiques détaillées (nombre de vues, profil des visiteurs) | ~9,99€ |
 
-*Les prix sont indicatifs et seront ajustés en fonction des tests A/B sur le MVP.*
+### Les options payantes — Acheteurs
 
-### Scénario de revenus (hypothèse prudente)
+| Option | Ce que ça fait | Prix indicatif |
+|--------|----------------|----------------|
+| Alertes prioritaires | Être prévenu en premier (24h d'avance) quand un bien correspondant apparaît | ~2,99€/mois |
+| Profil certifié | L'acheteur transmet une attestation bancaire ou une simulation de prêt. SwipeImmo vérifie le document et attribue un badge "solvabilité vérifiée" visible par les vendeurs, ce qui rassure et donne un avantage | ~4,99€ |
+
+*Les prix seront ajustés après les premiers retours utilisateurs.*
+
+### Projection de revenus (hypothèse prudente)
 
 Avec 1 000 annonces actives et 5 000 acheteurs inscrits :
-- 10% de vendeurs prennent un boost → 100 × 4,99€ = ~500€/mois
-- 5% de vendeurs prennent premium → 50 × 9,99€ = ~500€/mois
-- 3% d'acheteurs prennent alertes → 150 × 2,99€ = ~450€/mois
-- 5% d'acheteurs certifient leur profil → 250 × 4,99€ = ~1 250€/mois (one-shot)
+- 10% des vendeurs prennent la mise en avant → ~500€/mois
+- 5% des vendeurs prennent premium → ~500€/mois
+- 3% des acheteurs prennent les alertes prioritaires → ~450€/mois
+- 5% des acheteurs certifient leur profil → ~1 250€ (paiement unique)
 
-→ ~1 450€/mois récurrent (boosts + premium + alertes) + ~1 250€ en one-shots (profils certifiés). Modeste, mais démontre le mécanisme. La croissance vient du volume.
+→ **~1 450€/mois de revenus récurrents + ~1 250€ ponctuels.** Modeste au démarrage, mais le mécanisme de monétisation est prouvé. La croissance vient du volume d'utilisateurs.
 
-### Monétisation future (post-levée)
+### Et après ? (post-levée de fonds)
 
-- Partenariats notaires, courtiers, déménageurs (apport d'affaires)
+- Partenariats avec des notaires, courtiers, déménageurs (apport de clients)
 - Services d'accompagnement à la transaction
-- Version pro pour agences indépendantes
+- Version professionnelle pour les agences indépendantes
 
-## 7. Taille du marché
+---
 
-**TAM (Total Addressable Market)** : ~1,1 million de transactions immobilières/an en France (dont ~700k dans l'ancien). Valeur totale des transactions : ~250 Mds€/an.
+## 7. La taille du marché
 
-**SAM (Serviceable Addressable Market)** : ~30% des transactions se font déjà entre particuliers (PAP), soit ~210k transactions/an. Avec l'ajout de la location (~1,5M de déménagements/an), le marché adressable est considérable.
+**Marché total** : ~1,1 million de transactions immobilières par an en France (dont ~700 000 dans l'ancien), pour une valeur totale de ~250 milliards d'euros par an.
 
-**SOM (Serviceable Obtainable Market)** : Objectif Year 1 post-MVP : capter 0,05% du marché C2C vente sur 2-3 villes → ~100-200 transactions facilitées, soit une preuve de traction suffisante pour une Série Seed.
+**Marché accessible** : ~30% des transactions se font déjà entre particuliers, soit ~210 000 transactions par an. En ajoutant la location (~1,5 million de déménagements par an), le marché adressable est considérable.
 
-## 8. Levée de fonds
+**Objectif réaliste la première année** : Capter 0,05% du marché de la vente entre particuliers sur 2-3 villes → ~100-200 transactions facilitées. C'est suffisant comme preuve de traction pour une levée de fonds.
 
-**Montant visé** : Pré-seed / Seed de 200-400k€
+---
 
-**Utilisation des fonds** :
-- Recrutement de 1-2 développeurs supplémentaires
-- Budget marketing digital (SEO, social, acquisition)
-- Infrastructure données (hébergement, pipelines)
-- Trésorerie 12-18 mois de runway
+## 8. La levée de fonds
 
-**Jalons de la levée** : Le MVP validé (objectifs Section 11 atteints) constitue le signal pour déclencher la levée.
+**Montant visé** : 200 000 à 400 000€ (pré-seed / seed)
 
-## 9. Analyse concurrentielle
+**À quoi serviront les fonds :**
+- Recruter 1 à 2 développeurs supplémentaires
+- Budget marketing (référencement, réseaux sociaux, acquisition)
+- Infrastructure et hébergement
+- Trésorerie pour 12 à 18 mois de fonctionnement
 
-| Acteur | Estimation | Matching | C2C pur | Modèle |
-|--------|-----------|----------|---------|--------|
+**Quand ?** La levée sera déclenchée une fois la première version validée (objectifs de la Section 12 atteints).
+
+---
+
+## 9. Face à la concurrence
+
+| Acteur | Estimation du prix | Recommandations intelligentes | Entre particuliers | Modèle |
+|--------|-------------------|------------------------------|-------------------|--------|
 | **LeBonCoin** | Non | Filtres basiques | Oui | Annonces payantes |
-| **SeLoger** | Non | Filtres + alertes | Non (pros) | Abonnement agences |
+| **SeLoger** | Non | Filtres + alertes | Non (réservé aux pros) | Abonnement agences |
 | **PAP** | Non | Filtres | Oui | Abonnement vendeur |
-| **MeilleursAgents** | Oui (référence) | Non (pas de marketplace) | N/A | Leads pour agences |
-| **Hosman / Proprioo** | Oui | Non | Hybride (agent low-cost) | Commission réduite (~3%) |
-| **SwipeImmo** | **Oui, transparente** | **Oui, intelligent + comportemental** | **Oui** | **Freemium** |
+| **MeilleursAgents** | Oui (référence) | Non (pas de vente) | — | Vente de contacts aux agences |
+| **Hosman / Proprioo** | Oui | Non | Hybride (agent à prix réduit) | Commission réduite (~3%) |
+| **SwipeImmo** | **Oui, transparente** | **Oui, personnalisées** | **Oui** | **Gratuit + options payantes** |
 
-**Différenciation clé** : Aucun acteur ne combine estimation transparente + matching intelligent + C2C pur. MeilleursAgents fait l'estimation mais ne vend pas. LeBonCoin vend mais n'estime pas et ne matche pas. Hosman/Proprioo gardent un agent dans la boucle.
+**Ce qui nous distingue** : Aucun acteur ne combine les trois — estimation transparente + recommandations intelligentes + vente entre particuliers. MeilleursAgents estime mais ne vend pas. LeBonCoin vend mais n'estime pas et ne recommande pas. Hosman et Proprioo gardent un agent dans la boucle (et prennent une commission).
 
-## 10. Périmètre du MVP — Phasage
+---
 
-Le MVP est découpé en 3 phases pour rester réaliste avec 1 développeur :
+## 10. Le plan de construction — 3 phases
 
-### Phase 1 — Fondations : estimation + annonces (~8-10 semaines)
+Le produit est construit en 3 étapes, réalistes pour un développeur seul :
 
-- Inscription / connexion (vendeur + acheteur)
-- Wizard de création d'annonce guidé (vente uniquement en Phase 1)
-- Pipeline de données : DVF + cadastre + INSEE + Base Adresse Nationale
-- Estimation algorithmique transparente (fourchette, facteurs, comparables)
-- Fixation du prix avec indicateur de cohérence
-- Guidage photo intégré
-- Pages d'annonces publiques consultables
+### Phase 1 — Les fondations : estimation + annonces (~2-3 mois)
 
-*La location est introduite en Phase 3 pour ne pas complexifier le lancement.*
+- Inscription et connexion
+- Parcours guidé de création d'annonce (vente uniquement au départ)
+- Intégration des données publiques (ventes, cadastre, statistiques)
+- Estimation transparente (fourchette, explications, comparaisons)
+- Choix du prix avec indicateur de cohérence
+- Guide photo intégré
+- Pages d'annonces consultables par tous
 
-### Phase 2 — Matching + interaction (~6-8 semaines)
+*La location arrive en Phase 3 pour ne pas complexifier le lancement.*
 
-- Onboarding profil acheteur (critères + mode de vie)
-- Enrichissement environnement (transports, écoles, commerces, cadre de vie)
-- Feed de recommandations avec swipe (+ mode liste)
-- Score de compatibilité
-- Like / passer / contacter
+### Phase 2 — Les recommandations + la messagerie (~6-8 semaines)
+
+- Questionnaire de profil acheteur (critères + mode de vie)
+- Enrichissement des annonces avec les données d'environnement
+- Interface de découverte par swipe (+ mode liste)
+- Score de compatibilité sur chaque bien
+- Aimer / passer / contacter
 - Messagerie intégrée
-- Notifications (nouveau match, nouveau message)
-- Apprentissage comportemental basique (likes/passes)
+- Notifications (nouveau bien compatible, nouveau message)
+- Recommandations qui s'améliorent avec l'usage
 
-### Phase 3 — Monétisation + location (~4-6 semaines)
+### Phase 3 — La monétisation + la location (~4-6 semaines)
 
-- Boost de visibilité (paiement intégré)
-- Annonce premium
-- Alertes prioritaires acheteur
-- Profil certifié acheteur (upload attestation + vérification — après consultation juridique sur les obligations réglementaires liées à la manipulation de documents financiers)
-- Tableau de bord vendeur (statistiques détaillées)
-- Ouverture à la location : champs spécifiques (meublé/bail/charges), encadrement des loyers, critères locataire
+- Mise en avant et annonce premium (paiement intégré)
+- Alertes prioritaires pour les acheteurs
+- Profil certifié pour les acheteurs (après vérification des obligations légales liées à la manipulation de documents financiers)
+- Tableau de bord vendeur avec statistiques détaillées
+- Ouverture à la location : champs spécifiques (meublé, bail, charges), respect de l'encadrement des loyers, critères locataire
 
-**Planning prévisionnel** : Phase 1 opérationnelle ~3 mois après le démarrage, MVP complet (Phase 3) ~6 mois. Les commerciaux activent l'acquisition vendeurs dès la fin de Phase 1.
+**Calendrier prévisionnel** : Phase 1 opérationnelle ~3 mois après le démarrage. Produit complet ~6 mois. Les commerciaux commencent à recruter des vendeurs dès la fin de la Phase 1.
 
-### Hors MVP
+### Ce qui n'est pas prévu pour cette version
 
-- Réseau de photographes partenaires
-- Accompagnement à la transaction (notaire, juridique)
-- App mobile native (PWA suffit)
-- Version pro pour agences
+- Réseau de photographes professionnels
+- Accompagnement juridique ou notarial
+- Application mobile dédiée (le site web fonctionne très bien sur mobile)
+- Version pour les agences immobilières
 
-## 11. Go-to-market
+---
 
-### Stratégie de lancement
+## 11. La stratégie de lancement
 
-**Villes cibles** : 2-3 métropoles à forte tension immobilière (ex: Lyon, Bordeaux, Nantes). Le choix final dépend du réseau des 2 commerciaux sur le terrain.
+### Les villes cibles
 
-**Acquisition vendeurs (priorité)** — C'est l'offre qui attire la demande :
-- L'estimation gratuite est l'aimant principal — un propriétaire peut estimer son bien sans engagement
-- Les commerciaux démarchent en direct : agences en mandat simple, vendeurs PAP sur LeBonCoin/PAP
-- Présence sur les réseaux sociaux locaux (groupes Facebook immobilier, forums ville)
+2 à 3 métropoles à forte demande immobilière (ex: Lyon, Bordeaux, Nantes). Le choix final dépend du réseau des deux commerciaux sur le terrain.
 
-**Acquisition acheteurs** — Suit naturellement l'offre :
-- SEO sur "estimation immobilière [ville]", "acheter sans agence [ville]"
-- Partage social des fiches bien (données d'environnement = contenu partageable)
-- Bouche-à-oreille stimulé par la qualité du matching
+### Attirer les vendeurs d'abord — c'est la clé
 
-**Objectif masse critique par ville** : ~100 annonces actives pour que le matching ait du sens pour un acheteur.
+C'est l'offre qui attire la demande. Sans annonces, pas d'acheteurs.
 
-## 12. KPIs & Objectifs de validation
+- **L'estimation gratuite est l'aimant principal** — un propriétaire peut estimer son bien gratuitement, sans engagement. Même s'il ne publie pas tout de suite, il découvre la plateforme.
+- **Les commerciaux activent le terrain** — démarchage direct auprès de vendeurs qui publient déjà sur LeBonCoin ou PAP.
+- **Réseaux sociaux locaux** — présence dans les groupes Facebook immobilier, forums locaux.
 
-### North Star Metric
+### Attirer les acheteurs ensuite
 
-**Nombre de mises en relation qualifiées** (un acheteur contacte un vendeur via la plateforme).
+- Référencement naturel sur des recherches comme "estimation immobilière Lyon" ou "acheter sans agence Bordeaux"
+- Les fiches bien enrichies (environnement, transports, écoles) sont du contenu facilement partageable
+- Le bouche-à-oreille, porté par la qualité des recommandations
 
-### Objectifs de validation du MVP (6 mois post-lancement)
+**Objectif par ville** : ~100 annonces actives pour que les recommandations aient du sens pour un acheteur.
 
-| Métrique | Objectif | Validation |
-|----------|----------|------------|
-| Annonces publiées | 200+ | L'outil d'estimation attire les vendeurs |
-| Acheteurs inscrits | 1 000+ | Le matching attire les acheteurs |
-| Mises en relation | 100+ | Le produit crée de la valeur |
-| Taux complétion wizard | > 60% | Le parcours vendeur est fluide |
-| Taux conversion payant | > 5% | Le modèle économique fonctionne |
-| Retour utilisateur (NPS) | > 30 | Le produit plaît |
+---
 
-Si ces objectifs sont atteints → signal fort pour lever des fonds / entrer en incubateur.
+## 12. Les indicateurs de succès
 
-### Métriques de suivi
+### L'indicateur principal
 
-**Acquisition** : inscriptions (vendeurs vs acheteurs), taux de complétion wizard/onboarding
+**Le nombre de mises en relation réussies** — un acheteur contacte un vendeur via la plateforme.
 
-**Engagement** : annonces publiées, biens likés/contactés par acheteur, fréquence de retour, taux d'ouverture conversations
+### Les objectifs à 6 mois après le lancement
 
-**Qualité matching** : taux de contact après recommandation, pertinence perçue (feedback)
+| Ce qu'on mesure | Objectif | Ce que ça prouve |
+|-----------------|----------|------------------|
+| Annonces publiées | 200+ | L'estimation attire les vendeurs |
+| Acheteurs inscrits | 1 000+ | Les recommandations attirent les acheteurs |
+| Mises en relation | 100+ | La plateforme crée de la valeur |
+| Vendeurs qui vont au bout du parcours | > 60% | Le parcours est clair et fluide |
+| Acheteurs qui passent à une option payante | > 5% | Le modèle économique fonctionne |
+| Satisfaction utilisateur (NPS) | > 30 | Le produit plaît |
 
-**Estimation** : écart estimation vs prix final (objectif : estimation médiane à moins de 10% du prix de vente final), taux de vendeurs suivant l'estimation
+**Si ces objectifs sont atteints → feu vert pour la levée de fonds.**
 
-**Monétisation** : conversion gratuit → payant, ARPU, options les plus achetées
+### Les autres métriques suivies
 
-## 13. Risques & réponses
+- **Acquisition** : inscriptions vendeurs vs acheteurs, taux de complétion des parcours
+- **Engagement** : annonces publiées, biens aimés/contactés par acheteur, fréquence de retour, conversations ouvertes
+- **Qualité des recommandations** : taux de contact après une recommandation, retours utilisateurs
+- **Précision de l'estimation** : écart entre l'estimation et le prix de vente final (objectif : moins de 10% d'écart en médiane)
+- **Monétisation** : taux de passage au payant, revenu moyen par utilisateur payant, options les plus populaires
 
-| Risque | Réponse |
-|--------|---------|
-| LeBonCoin / SeLoger existent déjà | Ils sont des marketplaces passives. SwipeImmo est un moteur de matching actif avec estimation transparente. Voir analyse concurrentielle. |
-| Fiabilité de l'estimation | Basée sur DVF (transactions réelles). Indice de confiance affiché honnêtement. Transparence des facteurs crée la confiance. |
-| Masse critique (poule et œuf) | Lancement ciblé 2-3 villes. L'estimation gratuite est un aimant à vendeurs même sans acheteurs. Objectif : 100 annonces/ville avant push acheteurs. |
-| Réglementation | Pas de commission = pas de carte pro. Outil de mise en relation. Vigilance RGPD, encadrement loyers, DPE obligatoire. |
-| Équipe réduite (1 dev) | MVP phasé en 3 étapes réalistes. PWA + stack standard = recrutement facile post-levée. |
-| MeilleursAgents fait déjà l'estimation | MeilleursAgents vend des leads aux agences. SwipeImmo est C2C et intègre l'estimation dans un parcours complet de mise en relation. Pas le même produit. |
+---
+
+## 13. Les risques et nos réponses
+
+| Le risque | Notre réponse |
+|-----------|---------------|
+| "LeBonCoin et SeLoger existent déjà" | Ce sont des vitrines passives — l'utilisateur cherche, trie, se noie. SwipeImmo recommande activement les bons biens aux bonnes personnes, avec une estimation transparente en plus. |
+| "L'estimation sera-t-elle fiable ?" | Elle repose sur les ventes réelles (données publiques), pas sur des estimations d'estimations. L'indice de fiabilité est affiché honnêtement. La transparence (montrer les raisons et les ventes comparables) crée la confiance, même quand la fourchette est large. |
+| "Comment atteindre la masse critique ?" | Lancement ciblé sur 2-3 villes. L'estimation gratuite attire des vendeurs même sans acheteurs sur la plateforme. Objectif : 100 annonces par ville avant de pousser l'acquisition acheteurs. |
+| "Et la réglementation ?" | Pas de commission sur les ventes = pas besoin de carte professionnelle d'agent immobilier. SwipeImmo est un outil de mise en relation (comme LeBonCoin). Points de vigilance : protection des données personnelles, encadrement des loyers, affichage du DPE obligatoire. |
+| "Une équipe de 3 personnes, c'est suffisant ?" | Le produit est construit en 3 phases réalistes pour un développeur. La technologie utilisée est standard, ce qui facilite le recrutement après la levée. |
+| "MeilleursAgents fait déjà l'estimation" | MeilleursAgents revend les contacts aux agences immobilières. SwipeImmo est entre particuliers et intègre l'estimation dans un parcours complet de recherche et de mise en relation. Ce n'est pas le même produit, ni le même client. |
