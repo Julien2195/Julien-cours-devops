@@ -3,30 +3,58 @@ name: CI
 on:
   pull_request:
     branches:
-      - dev
+      - ci
+      
   push:
     branches:
-      - dev
+      - ci
 
 jobs:
-  CI:
+  lint:
+    name: ESLint
     runs-on: ubuntu-latest
 
+    container:
+      image: node:20-alpine
+
     steps:
-      - name: checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: install node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
 
-      - name: npm install
-        run: npm install
+      - name: Run lint
+        run: npm run lint
 
-      - name: build app
-        run: npm run build
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
 
-      - name: tests front
+    container:
+      image: node:20-alpine
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
         run: npm test
+
+  docker:
+    name: docker
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t cours .
+
+      - name: Start container
+        run: docker run -d -p 3001:3000 --name cours cours
